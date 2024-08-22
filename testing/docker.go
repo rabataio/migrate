@@ -287,7 +287,7 @@ type dockerImagePullOutput struct {
 }
 
 func init() {
-	rand.Seed(time.Now().UnixNano())
+	rand.Seed(time.Now().UnixNano()) //nolint:staticcheck
 }
 
 func pseudoRandStr(n int) string {
