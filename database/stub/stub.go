@@ -63,7 +63,7 @@ func (s *Stub) Unlock() error {
 	return nil
 }
 
-func (s *Stub) Run(migration io.Reader) error {
+func (s *Stub) Run(migration io.Reader, f database.Func) error {
 	m, err := io.ReadAll(migration)
 	if err != nil {
 		return err

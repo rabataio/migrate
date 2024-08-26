@@ -22,6 +22,8 @@ const NilVersion int = -1
 var driversMu sync.RWMutex
 var drivers = make(map[string]Driver)
 
+type Func interface{}
+
 // Driver is the interface every database driver must implement.
 //
 // How to implement a database driver?
@@ -63,7 +65,7 @@ type Driver interface {
 	Unlock() error
 
 	// Run applies a migration to the database. migration is guaranteed to be not nil.
-	Run(migration io.Reader) error
+	Run(migration io.Reader, f Func) error
 
 	// SetVersion saves version and dirty state.
 	// Migrate will call this function before and after each call to Run.

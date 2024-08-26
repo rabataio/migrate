@@ -141,7 +141,7 @@ func (p *Redshift) Unlock() error {
 	return nil
 }
 
-func (p *Redshift) Run(migration io.Reader) error {
+func (p *Redshift) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

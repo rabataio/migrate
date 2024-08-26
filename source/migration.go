@@ -12,6 +12,8 @@ const (
 	Up   Direction = "up"
 )
 
+type Func interface{}
+
 // Migration is a helper struct for source drivers that need to
 // build the full directory tree in memory.
 // Migration is fully independent from migrate.Migration.
@@ -29,6 +31,9 @@ type Migration struct {
 	// Raw holds the raw location path to this migration in source.
 	// ReadUp and ReadDown will use this.
 	Raw string
+
+	// Func represent golang function to execute migration, maybe different type for different databases
+	Func Func
 }
 
 // Migrations wraps Migration and has an internal index

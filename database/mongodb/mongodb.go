@@ -240,7 +240,7 @@ func (m *Mongo) Version() (version int, dirty bool, err error) {
 	}
 }
 
-func (m *Mongo) Run(migration io.Reader) error {
+func (m *Mongo) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

@@ -172,7 +172,7 @@ func (p *Snowflake) Unlock() error {
 	return nil
 }
 
-func (p *Snowflake) Run(migration io.Reader) error {
+func (p *Snowflake) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

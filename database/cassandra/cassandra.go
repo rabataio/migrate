@@ -212,7 +212,7 @@ func (c *Cassandra) Unlock() error {
 	return nil
 }
 
-func (c *Cassandra) Run(migration io.Reader) error {
+func (c *Cassandra) Run(migration io.Reader, f database.Func) error {
 	if c.config.MultiStatementEnabled {
 		var err error
 		if e := multistmt.Parse(migration, multiStmtDelimiter, c.config.MultiStatementMaxSize, func(m []byte) bool {

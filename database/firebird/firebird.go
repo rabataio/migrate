@@ -121,7 +121,7 @@ func (f *Firebird) Unlock() error {
 	return nil
 }
 
-func (f *Firebird) Run(migration io.Reader) error {
+func (f *Firebird) Run(migration io.Reader, fn database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

@@ -114,7 +114,7 @@ func TestReadUp(t *testing.T, d source.Driver) {
 	}
 
 	for i, v := range tt {
-		up, identifier, err := d.ReadUp(v.version)
+		up, f, identifier, err := d.ReadUp(v.version)
 		if (v.expectErr == os.ErrNotExist && !errors.Is(err, os.ErrNotExist)) ||
 			(v.expectErr != os.ErrNotExist && err != v.expectErr) {
 			t.Errorf("expected %v, got %v, in %v", v.expectErr, err, i)
@@ -124,7 +124,7 @@ func TestReadUp(t *testing.T, d source.Driver) {
 				t.Errorf("expected identifier not to be empty, in %v", i)
 			}
 
-			if v.expectUp && up == nil {
+			if v.expectUp && up == nil && f == nil {
 				t.Errorf("expected up not to be nil, in %v", i)
 			} else if !v.expectUp && up != nil {
 				t.Errorf("expected up to be nil, got %v, in %v", up, i)
@@ -156,7 +156,7 @@ func TestReadDown(t *testing.T, d source.Driver) {
 	}
 
 	for i, v := range tt {
-		down, identifier, err := d.ReadDown(v.version)
+		down, f, identifier, err := d.ReadDown(v.version)
 		if (v.expectErr == os.ErrNotExist && !errors.Is(err, os.ErrNotExist)) ||
 			(v.expectErr != os.ErrNotExist && err != v.expectErr) {
 			t.Errorf("expected %v, got %v, in %v", v.expectErr, err, i)
@@ -166,7 +166,7 @@ func TestReadDown(t *testing.T, d source.Driver) {
 				t.Errorf("expected identifier not to be empty, in %v", i)
 			}
 
-			if v.expectDown && down == nil {
+			if v.expectDown && down == nil && f == nil {
 				t.Errorf("expected down not to be nil, in %v", i)
 			} else if !v.expectDown && down != nil {
 				t.Errorf("expected down to be nil, got %v, in %v", down, i)

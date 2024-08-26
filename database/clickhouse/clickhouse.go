@@ -133,7 +133,7 @@ func (ch *ClickHouse) init() error {
 	return ch.ensureVersionTable()
 }
 
-func (ch *ClickHouse) Run(r io.Reader) error {
+func (ch *ClickHouse) Run(r io.Reader, f database.Func) error {
 	if ch.config.MultiStatementEnabled {
 		var err error
 		if e := multistmt.Parse(r, multiStmtDelimiter, ch.config.MultiStatementMaxSize, func(m []byte) bool {

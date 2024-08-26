@@ -11,6 +11,8 @@ import (
 // pre-read migration (see DefaultPrefetchMigrations).
 var DefaultBufferSize = uint(100000)
 
+type Func interface{}
+
 // Migration holds information about a migration.
 // It is initially created from data coming from the source and then
 // used when run against the database.
@@ -54,6 +56,8 @@ type Migration struct {
 
 	// BytesRead holds the number of Bytes read from the migration source.
 	BytesRead int64
+
+	Func Func
 }
 
 // NewMigration returns a new Migration and sets the body, identifier,
@@ -73,14 +77,14 @@ type Migration struct {
 // NilVersion is a const(-1). When running down migrations and we are at the
 // last down migration, there is no next down migration, the targetVersion should
 // be nil. Nil in this case is represented by -1 (because type int).
-func NewMigration(body io.ReadCloser, identifier string,
-	version uint, targetVersion int) (*Migration, error) {
+func NewMigration(body io.ReadCloser, identifier string, version uint, targetVersion int, f Func) (*Migration, error) {
 	tnow := time.Now()
 	m := &Migration{
 		Identifier:    identifier,
 		Version:       version,
 		TargetVersion: targetVersion,
 		Scheduled:     tnow,
+		Func:          f,
 	}
 
 	if body == nil {

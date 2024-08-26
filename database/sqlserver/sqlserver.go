@@ -233,7 +233,7 @@ func (ss *SQLServer) Unlock() error {
 }
 
 // Run the migrations for the database
-func (ss *SQLServer) Run(migration io.Reader) error {
+func (ss *SQLServer) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

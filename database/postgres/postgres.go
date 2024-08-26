@@ -264,7 +264,7 @@ func (p *Postgres) Unlock() error {
 	})
 }
 
-func (p *Postgres) Run(migration io.Reader) error {
+func (p *Postgres) Run(migration io.Reader, f database.Func) error {
 	if p.config.MultiStatementEnabled {
 		var err error
 		if e := multistmt.Parse(migration, multiStmtDelimiter, p.config.MultiStatementMaxSize, func(m []byte) bool {

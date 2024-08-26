@@ -134,7 +134,7 @@ func (n *Neo4j) Unlock() error {
 	return nil
 }
 
-func (n *Neo4j) Run(migration io.Reader) (err error) {
+func (n *Neo4j) Run(migration io.Reader, f database.Func) (err error) {
 	session, err := n.driver.Session(neo4j.AccessModeWrite)
 	if err != nil {
 		return err

@@ -191,7 +191,7 @@ func (m *Sqlite) Unlock() error {
 	return nil
 }
 
-func (m *Sqlite) Run(migration io.Reader) error {
+func (m *Sqlite) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

@@ -3,16 +3,19 @@ package redis
 import (
 	"context"
 	"fmt"
-	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database"
-	"github.com/redis/go-redis/v9"
-	"go.uber.org/atomic"
 	"io"
 	neturl "net/url"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database"
+	"github.com/redis/go-redis/v9"
+	"go.uber.org/atomic"
 )
+
+type MigrationFunc = func(ctx context.Context, client redis.UniversalClient) error
 
 func init() {
 	db := Redis{}
@@ -193,7 +196,16 @@ func (r *Redis) Unlock() error {
 	})
 }
 
-func (r *Redis) Run(migration io.Reader) error {
+func (r *Redis) Run(migration io.Reader, f database.Func) error {
+	if f != nil {
+		migrationFunc, ok := f.(MigrationFunc)
+		if !ok {
+			return fmt.Errorf("unexpected migration func signature %T", f)
+		}
+
+		return migrationFunc(context.Background(), r.client)
+	}
+
 	script, err := io.ReadAll(migration)
 	if err != nil {
 		return err

@@ -177,7 +177,7 @@ func (m *Ql) Unlock() error {
 	}
 	return nil
 }
-func (m *Ql) Run(migration io.Reader) error {
+func (m *Ql) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

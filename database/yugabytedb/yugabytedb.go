@@ -255,7 +255,7 @@ func (c *YugabyteDB) Unlock() error {
 	})
 }
 
-func (c *YugabyteDB) Run(migration io.Reader) error {
+func (c *YugabyteDB) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

@@ -160,7 +160,7 @@ func (r *Rqlite) Unlock() error {
 }
 
 // Run applies a migration to the database. migration is guaranteed to be not nil.
-func (r *Rqlite) Run(migration io.Reader) error {
+func (r *Rqlite) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

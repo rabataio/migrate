@@ -334,7 +334,7 @@ func (m *Mysql) Unlock() error {
 	})
 }
 
-func (m *Mysql) Run(migration io.Reader) error {
+func (m *Mysql) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

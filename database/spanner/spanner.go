@@ -168,7 +168,7 @@ func (s *Spanner) Unlock() error {
 }
 
 // Run implements database.Driver
-func (s *Spanner) Run(migration io.Reader) error {
+func (s *Spanner) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

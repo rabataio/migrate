@@ -210,7 +210,7 @@ func (c *CockroachDb) Unlock() error {
 	})
 }
 
-func (c *CockroachDb) Run(migration io.Reader) error {
+func (c *CockroachDb) Run(migration io.Reader, f database.Func) error {
 	migr, err := io.ReadAll(migration)
 	if err != nil {
 		return err

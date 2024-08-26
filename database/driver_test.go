@@ -36,7 +36,7 @@ func (m *mockDriver) Unlock() error {
 	return nil
 }
 
-func (m *mockDriver) Run(migration io.Reader) error {
+func (m *mockDriver) Run(migration io.Reader, f Func) error {
 	return nil
 }
 
