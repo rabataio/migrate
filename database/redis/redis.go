@@ -113,6 +113,18 @@ func newClient(url string, mode Mode) (redis.UniversalClient, error) {
 }
 
 func WithInstance(client redis.UniversalClient, config *Config) (database.Driver, error) {
+	if config.MigrationsKey == "" {
+		config.MigrationsKey = DefaultMigrationsKey
+	}
+
+	if config.LockKey == "" {
+		config.LockKey = DefaultLockKey
+	}
+
+	if config.LockTimeout == 0 {
+		config.LockTimeout = DefaultLockTimeout
+	}
+
 	return &Redis{
 		client: client,
 		config: config,
@@ -138,17 +150,7 @@ func (r *Redis) Open(url string) (database.Driver, error) {
 		return nil, err
 	}
 
-	migrationsKey := query.Get("x-migrations-key")
-	if migrationsKey == "" {
-		migrationsKey = DefaultMigrationsKey
-	}
-
-	lockKey := query.Get("x-lock-key")
-	if lockKey == "" {
-		lockKey = DefaultLockKey
-	}
-
-	lockTimeout := DefaultLockTimeout
+	var lockTimeout time.Duration
 	rawLockTimeout := query.Get("x-lock-timeout")
 	if rawLockTimeout != "" {
 		lockTimeout, err = time.ParseDuration(rawLockTimeout)
@@ -165,8 +167,8 @@ func (r *Redis) Open(url string) (database.Driver, error) {
 	return WithInstance(
 		client,
 		&Config{
-			MigrationsKey: migrationsKey,
-			LockKey:       lockKey,
+			MigrationsKey: query.Get("x-migrations-key"),
+			LockKey:       query.Get("x-lock-key"),
 			LockTimeout:   lockTimeout,
 		},
 	)
